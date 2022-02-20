@@ -1,1 +1,12 @@
 c:\users\g483-02\documents\visual studio 2012\Projects\Figures\Figures\bin\Debug\Figures.exe.config
+N:\Programming\College\F\Figures\bin\Debug\Figures.exe.config
+N:\Programming\College\F\Figures\bin\Debug\Figures.exe
+N:\Programming\College\F\Figures\bin\Debug\Figures.pdb
+N:\Programming\College\F\Figures\obj\Debug\Figures.csproj.AssemblyReference.cache
+N:\Programming\College\F\Figures\obj\Debug\Figures.csproj.SuggestedBindingRedirects.cache
+N:\Programming\College\F\Figures\obj\Debug\Figures.Form1.resources
+N:\Programming\College\F\Figures\obj\Debug\Figures.Properties.Resources.resources
+N:\Programming\College\F\Figures\obj\Debug\Figures.csproj.GenerateResource.cache
+N:\Programming\College\F\Figures\obj\Debug\Figures.csproj.CoreCompileInputs.cache
+N:\Programming\College\F\Figures\obj\Debug\Figures.exe
+N:\Programming\College\F\Figures\obj\Debug\Figures.pdb
