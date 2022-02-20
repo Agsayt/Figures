@@ -10,12 +10,14 @@ namespace Figures.Logic
     internal class Triangle : Figure
     {
         private int triangleSide;
-        PointF[] trianglePoints;
+        List<PointF> trianglePoints;
 
         public Triangle(int side, float x, float y)
         {
+            posX = x;
+            posY = y;
 
-
+            trianglePoints = new List<PointF>();
 
             SetSide(side);
         }
@@ -24,9 +26,22 @@ namespace Figures.Logic
 
         public override void Draw(Graphics g)
         {
-            
+            trianglePoints.Clear();
+            var p1 = new PointF(posX, posY - triangleSide/2);
+            var p2 = new PointF(posX + triangleSide / 2, posY + triangleSide / 2);
+            var p3 = new PointF(posX - triangleSide / 2, posY + triangleSide / 2);
 
-            //g.DrawPolygon();
+            trianglePoints.Add(p1);
+            trianglePoints.Add(p2);
+            trianglePoints.Add(p3);
+
+            Pen pen = Pens.Black;
+
+            if (isSelected) pen = Pens.Green;
+
+            g.DrawLine(pen, p1, p2);
+            g.DrawLine(pen, p2, p3);
+            g.DrawLine(pen, p3, p1);
         }
 
 

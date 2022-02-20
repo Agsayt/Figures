@@ -94,7 +94,12 @@ namespace Figures
                     FiguresLB.Items.Add(square);
                     break;
                 case Figures.Triangle: 
-                    
+                    var triangle = new Triangle(40, middlePoint.X, middlePoint.Y);
+                    id = figureList.Where(x => x.name.Contains("triangle")).Count() + 1;
+                    triangle.localId = id;
+                    triangle.name = "triangle" + id;
+                    figureList.Add(triangle);
+                    FiguresLB.Items.Add(triangle);
                     break;
             }
 
@@ -181,6 +186,9 @@ namespace Figures
             //{
 
             //}
+            if (Control.ModifierKeys == Keys.Shift)
+                return;
+
             selectedFigures.Clear();
 
             foreach (var fgr in figureList)
@@ -203,10 +211,12 @@ namespace Figures
             if (selectedFigures.Count() == 0)
                 return;
 
-            DialogResult dialogResult = MessageBox.Show($"Вы уверены что хотите удалить объект {selectedFigures}?", "Подтверждение действия", MessageBoxButtons.YesNo);
+            DialogResult dialogResult = MessageBox.Show($"Вы уверены что хотите удалить объект?", "Подтверждение действия", MessageBoxButtons.YesNo);
             if (dialogResult == DialogResult.Yes)
             {
-                foreach (var figure in selectedFigures)
+                var temp = new List<Figure>();
+                temp.AddRange(selectedFigures.ToArray());
+                foreach (var figure in temp)
                 {
                     figureList.Remove(figure);
                     FiguresLB.Items.Remove(figure);

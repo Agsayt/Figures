@@ -96,6 +96,7 @@
             this.FiguresLB.FormattingEnabled = true;
             this.FiguresLB.Location = new System.Drawing.Point(622, 0);
             this.FiguresLB.Name = "FiguresLB";
+            this.FiguresLB.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
             this.FiguresLB.Size = new System.Drawing.Size(120, 69);
             this.FiguresLB.TabIndex = 2;
             this.FiguresLB.SelectedIndexChanged += new System.EventHandler(this.FiguresLB_SelectedIndexChanged);
