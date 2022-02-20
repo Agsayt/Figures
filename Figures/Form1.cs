@@ -1,5 +1,6 @@
 ﻿using Figures.Logic;
 using Microsoft.VisualBasic;
+using Microsoft.VisualBasic.Devices;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -20,6 +21,7 @@ namespace Figures
 
             FigureCB.Items.AddRange(Enum.GetNames(typeof(Figures)));
             FigureCB.SelectedIndex = 0;
+            selectedFigures = new List<Figure>();
         }
 
         enum Figures
@@ -31,8 +33,10 @@ namespace Figures
 
         #region vars
         List<Figure> figureList = new List<Figure>();
-        Figure selectedFigure;
+        List<Figure> selectedFigures;
         Figures figToCreate;
+        private int oldX;
+        private int oldY;
         #endregion
 
 
@@ -111,10 +115,14 @@ namespace Figures
 
         private void canvas_MouseDown(object sender, MouseEventArgs e)
         {
-            selectedFigure = null;
-            foreach (var figure in figureList)
+
+            if (Control.ModifierKeys != Keys.Shift)
             {
-                figure.isSelected = false;
+                selectedFigures = new List<Figure>();
+                foreach (var figure in figureList)
+                {
+                    figure.isSelected = false;
+                }
             }
 
             foreach (var figure in figureList)
@@ -122,7 +130,11 @@ namespace Figures
                 if (figure.IsInside(e.X, e.Y))
                 {
                     figure.isSelected = true;
-                    selectedFigure = figure;
+                    selectedFigures.Add(figure);
+                    FiguresLB.SelectedItem = figure;
+                    if (Control.ModifierKeys == Keys.Shift)
+                        continue;
+
                     break;
                 }
             }
@@ -131,45 +143,74 @@ namespace Figures
 
         private void canvas_MouseMove(object sender, MouseEventArgs e)
         {
+            
             if (e.Button == MouseButtons.Left)
             {
-                foreach (var figure in figureList)
+                foreach (var figure in selectedFigures)
                 {
                     if (figure.isSelected)
                     {
-                        figure.posX = e.X;
-                        figure.posY = e.Y;
+                        var dx = e.X - oldX; 
+                        var dy = e.Y - oldY;
+
+                        figure.posX += dx;
+                        figure.posY += dy;
                     }
                 }
                 canvas.Invalidate();
-            }         
+            }
 
+            oldX = e.X;
+            oldY = e.Y;
         }
 
         private void FiguresLB_SelectedIndexChanged(object sender, EventArgs e)
         {
+            //var sendr = sender as ListBox;
+
+            //if (sendr.SelectedItems == null && sendr.SelectedItem == null)
+            //{
+            //    selectedFigures.Clear();
+            ////    foreach (var fgr in figureList)
+            ////    {
+            ////        fgr.isSelected = false;
+            ////    }
+            //}
+
+            //if (sendr.SelectedItem != null && sendr.SelectedItems == null)
+            //{
+
+            //}
+            selectedFigures.Clear();
+
             foreach (var fgr in figureList)
             {
                 fgr.isSelected = false;
             }
 
             var item = (sender as ListBox).SelectedItem;
-            var figure = figureList.Where(x => x == item).First();
-            selectedFigure = figure;
-            figure.isSelected = true;
+            var figures = figureList.Where(x => x == item).ToList();
+            selectedFigures.AddRange(figures.ToArray());
+            foreach (var figure in selectedFigures)
+            {
+                figure.isSelected = true;
+            }
             canvas.Invalidate(true);
         }
 
         private void RemoveFigure_Click(object sender, EventArgs e)
         {
-            if (selectedFigure == null)
+            if (selectedFigures.Count() == 0)
                 return;
 
-            DialogResult dialogResult = MessageBox.Show($"Вы уверены что хотите удалить объект {selectedFigure}?", "Подтверждение действия", MessageBoxButtons.YesNo);
+            DialogResult dialogResult = MessageBox.Show($"Вы уверены что хотите удалить объект {selectedFigures}?", "Подтверждение действия", MessageBoxButtons.YesNo);
             if (dialogResult == DialogResult.Yes)
             {
-                figureList.Remove(selectedFigure);
-                FiguresLB.Items.Remove(selectedFigure);
+                foreach (var figure in selectedFigures)
+                {
+                    figureList.Remove(figure);
+                    FiguresLB.Items.Remove(figure);
+                }
                 canvas.Invalidate();
             }            
         }
@@ -185,12 +226,18 @@ namespace Figures
             var stringResult = Interaction.InputBox("Введите новое имя для фигуры", "Переименовка объекта", figure.name);
 
             if (String.IsNullOrWhiteSpace(stringResult))
+            {
                 MessageBox.Show("Новое имя фигуры не может быть пустым!", "Ошибка");
+                return;
+            }
 
             var isExist = figureList.Where(x => x.name == stringResult && x == figure).Any();
 
             if (isExist)
+            {
                 MessageBox.Show("Введённое имя уже занято, выберите другое!");
+                return;
+            }
 
             figure.name = stringResult;
             FiguresLB.Items.Clear();
@@ -210,6 +257,7 @@ namespace Figures
                 {
                     figure.isSelected = true;
                     RenameFigure(figure);
+                                        
                     break;
                 }
             }
