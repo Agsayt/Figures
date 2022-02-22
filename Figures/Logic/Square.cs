@@ -45,6 +45,10 @@ namespace Figures.Logic
             return true;
         }
 
+        /// <summary>
+        /// Set side for square
+        /// </summary>
+        /// <param name="side">Side</param>
         public void SetSide(int side)
         {
             squareSide = side;

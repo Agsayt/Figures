@@ -51,8 +51,7 @@ namespace Figures.Logic
             float d1, d2, d3;
             bool has_neg, has_pos;
             var pt = new PointF(x, y);
-
-
+                        
             d1 = sign(pt, trianglePoints[0], trianglePoints[1]);
             d2 = sign(pt, trianglePoints[1], trianglePoints[2]);
             d3 = sign(pt, trianglePoints[2], trianglePoints[0]);
@@ -89,6 +88,11 @@ namespace Figures.Logic
             return new PointF(centerX / accumulatedArea, centerY / accumulatedArea);
         }
 
+
+        /// <summary>
+        /// Set side for triangle
+        /// </summary>
+        /// <param name="side">Side</param>
         public void SetSide(int side)
         {
             triangleSide = side;

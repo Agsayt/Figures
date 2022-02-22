@@ -39,13 +39,14 @@ namespace Figures
         private int oldY;
         #endregion
 
-
+        //Change canvas size on resize main form
         private void Form1_Resize(object sender, EventArgs e)
         {
             canvas.Width = this.Width - 10;
             canvas.Height = this.Height - 10;
         }
 
+        //Changing current figure to create
         private void FigureCB_SelectedIndexChanged(object sender, EventArgs e)
         {
             var item = (sender as ToolStripComboBox);
@@ -69,6 +70,7 @@ namespace Figures
             canvas.Focus();
         }
 
+        //Add new figure
         private void AddFigure_Click(object sender, EventArgs e)
         {
             var middlePoint = new PointF(canvas.Width / 2, canvas.Height / 2);
@@ -114,8 +116,6 @@ namespace Figures
             {
                 item.Draw(e.Graphics);
             }
-
-            
         }
 
         private void canvas_MouseDown(object sender, MouseEventArgs e)
@@ -169,23 +169,9 @@ namespace Figures
             oldY = e.Y;
         }
 
+        //Select figure in listBox
         private void FiguresLB_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            //var sendr = sender as ListBox;
-
-            //if (sendr.SelectedItems == null && sendr.SelectedItem == null)
-            //{
-            //    selectedFigures.Clear();
-            ////    foreach (var fgr in figureList)
-            ////    {
-            ////        fgr.isSelected = false;
-            ////    }
-            //}
-
-            //if (sendr.SelectedItem != null && sendr.SelectedItems == null)
-            //{
-
-            //}
+        {            
             if (Control.ModifierKeys == Keys.Shift)
                 return;
 
@@ -206,6 +192,7 @@ namespace Figures
             canvas.Invalidate(true);
         }
 
+        //Remove selected figure
         private void RemoveFigure_Click(object sender, EventArgs e)
         {
             if (selectedFigures.Count() == 0)
@@ -225,12 +212,17 @@ namespace Figures
             }            
         }
 
+        //Call rename on double click in listBox
         private void FiguresLB_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             var figure = (sender as ListBox).SelectedItem as Figure;
             RenameFigure(figure);
         }
 
+        /// <summary>
+        /// Rename selected figure
+        /// </summary>
+        /// <param name="figure">Figure class</param>
         private void RenameFigure(Figure figure)
         {
             var stringResult = Interaction.InputBox("Введите новое имя для фигуры", "Переименовка объекта", figure.name);
@@ -254,6 +246,7 @@ namespace Figures
             FiguresLB.Items.AddRange(figureList.ToArray());
         }
 
+        //Rename figure on doubli click inside canvas
         private void canvas_DoubleClick(object sender, MouseEventArgs e)
         {
             foreach (var figure in figureList)

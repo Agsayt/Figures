@@ -14,10 +14,21 @@ namespace Figures.Logic
         public int localId;
         public string name;
 
+        /// <summary>
+        /// Check if point is inside the figure
+        /// </summary>
+        /// <param name="x">Point x</param>
+        /// <param name="y">Point y</param>
+        /// <returns>Bool result</returns>
         public abstract bool IsInside(float x, float y);
+
+        /// <summary>
+        /// Draw figure on object
+        /// </summary>
+        /// <param name="g">Graphic of object</param>
         public abstract void Draw(Graphics g);
 
-
+       
         override
         public String ToString()
         {

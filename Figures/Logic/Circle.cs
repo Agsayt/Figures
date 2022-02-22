@@ -42,6 +42,10 @@ namespace Figures.Logic
             g.DrawEllipse(pen, x0, y0, diameter, diameter);
         }
 
+        /// <summary>
+        /// Set radius for circle
+        /// </summary>
+        /// <param name="r">Radius</param>
         public void SetRadius(int r)
         {
             radius = r;
